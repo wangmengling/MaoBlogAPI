@@ -1,17 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
 var articleSchema = new Schema({
-  title:  String,
-  author: String,
-  body:   String,
+  title: String,
+  username:  String,
+  summary: String,
+  content:   String,
+  category: Number,
+  tag: String,
   comments: [{ body: String, date: Date }],
-  date: { type: Date, default: Date.now },
+  time: { type: Date, default: Date.now },
   hidden: Boolean,
-  meta: {
-    votes: Number,
-    favs:  Number
-  }
+  status:Number,
+  view:Number
 });
 var ArticleModel = mongoose.model('article', articleSchema);
 export default ArticleModel;

@@ -15,6 +15,7 @@ const path = require('path')
 
 const config = require('./config')
 const routes = require('./routes')
+import dbconfig from './config/db.config'
 
 const port = process.env.PORT || config.port
 
