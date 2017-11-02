@@ -1,6 +1,7 @@
 
 import ArticleModel from "../models/ArticleModel";
 import {responseClient} from "../config/Utils";
+import ResponseData from "../config/ResponseData";
 class ArticleController {
     constructor() {
         

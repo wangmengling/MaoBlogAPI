@@ -1,6 +1,8 @@
 import UserModel from '../models/UserModel';
 import jwt from 'jsonwebtoken';
 import { secret } from "../config";
+import ResponseData from "../config/ResponseData";
+import {responseClient} from "../config/Utils";
 class UserController {
     constructor() {
 
@@ -15,11 +17,7 @@ class UserController {
             let ret = await UserModel.find({ "username": username });
             
             if (ret.length > 0) {
-                data = {
-                    code: 200,
-                    msg: "用户名已存在",
-                    data:{'username':ret.username}
-                };
+                responseClient(ctx,"用户名已存在",{'username':ret.username},0);
             } else {
                 user.token = jwt.sign({
                     user_id: user.username,
@@ -27,20 +25,11 @@ class UserController {
                     expiresIn: '12h' //那么decode这个token的时候得到的过期时间为 : 创建token的时间 +　设置的值
                 })
                 let ret = await user.save();
-                data = {
-                    code: 200,
-                    msg: "注册成功",
-                    data:{'username':username,'token':user.token}
-                };
+                responseClient(ctx,"注册成功",{'username':username,'token':user.token});
             }
         } catch (error) {
-            data = {
-                code: 500,
-                error:error.message,
-                msg: "注册错误"
-            };
+            responseClient(ctx,"注册错误",error.message,0);
         }
-        ctx.body = data;
     }
 
     async login(ctx) {
@@ -58,25 +47,13 @@ class UserController {
                 });
                 await UserModel.update({ _id: ret._id }, { $set: { token: token }});
                 ret.token = token
-                data = {
-                    code: 200,
-                    data: ret,
-                    token: token,
-                    msg: "登录成功"
-                };
+                responseClient(ctx,"登录成功",ret);
             }
             else {
-                data = {
-                    code: 0,
-                    msg: "用户名或密码错误",
-                    data:ret._id
-                };
+                responseClient(ctx,"用户名或密码错误",ret._id,0);
             }
-
-            ctx.status = 200
-            ctx.body = data;
         } catch (error) {
-            
+            responseClient(ctx,error.message,ret._id,0,error.code);
         }
     }
 }

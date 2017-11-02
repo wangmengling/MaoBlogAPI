@@ -18,12 +18,4 @@ module.exports = {
     
 }
 
-class ResponseData {
-    constructor(code, msg) {
-        this.code = code;
-        this.msg = msg;
-      }
-}
 
-let responseData = new ResponseData();
-responseData.code
