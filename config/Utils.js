@@ -6,7 +6,7 @@ module.exports = {
         let md5 = crypto.createHash('md5');
         return md5.update(pwd).digest('hex')
     },
-    responseClient(ctx,httpCode = 500, code = 3,message='服务端异常',data={}) {
+    responseClient(ctx,message='服务端异常',data={}, code = 1, httpCode = 200) {
         let responseData = {};
         responseData.code = code;
         responseData.message = message;
@@ -14,4 +14,16 @@ module.exports = {
         ctx.status = httpCode;
         ctx.body = responseData;
     }
+
+    
 }
+
+class ResponseData {
+    constructor(code, msg) {
+        this.code = code;
+        this.msg = msg;
+      }
+}
+
+let responseData = new ResponseData();
+responseData.code

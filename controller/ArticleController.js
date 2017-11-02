@@ -8,17 +8,37 @@ class ArticleController {
 
     async articleList(ctx) {
         let { pageIndex, pageSize } = ctx.request.body;
-        let articleData = await ArticleModel.find();
-        let count = await ArticleModel.count();
-        console.log(count);
-        responseClient(ctx,200,200,"啊是打发斯蒂芬",{pageTotal:count/pageSize,list:articleData});
+        try {
+            let articleData = await ArticleModel.find().skip(pageIndex * pageSize).limit(pageSize);
+            let count = await ArticleModel.count();
+            responseClient(ctx,"",{pageTotal:Math.ceil(count/pageSize),list:articleData});
+        } catch (error) {
+            responseClient(ctx,error.message,{},0);
+        }
+    }
+
+    async articleDetail(ctx) {
+        let { _id } = ctx.request.body;
+        if (!_id) {
+            responseClient(ctx,"请传入文章ID",{},0);
+        }else {
+            try {
+                let articleDetailData = await ArticleModel.findById(_id);
+                if (articleDetailData) {
+                    responseClient(ctx,"",articleDetailData);
+                }else {
+                    responseClient(ctx,"没有相关文章",{},0);
+                }
+            } catch (error) {
+                responseClient(ctx,error.message,{},0);
+            }
+        }
     }
 
     async addArticle(ctx) {
         let article = new ArticleModel({ title: 'small' });
         let articleData = await article.save()
-        
-        responseClient(ctx,200,200,"啊是打发斯蒂芬",articleData);
+        responseClient(ctx,200,200,"",articleData);
     }
 }
 export default new ArticleController();
