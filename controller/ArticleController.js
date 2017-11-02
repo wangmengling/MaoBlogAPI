@@ -7,14 +7,18 @@ class ArticleController {
     }
 
     async articleList(ctx) {
+        let { pageIndex, pageSize } = ctx.request.body;
         let articleData = await ArticleModel.find();
-        responseClient(ctx,200,200,"",articleData);
+        let count = await ArticleModel.count();
+        console.log(count);
+        responseClient(ctx,200,200,"啊是打发斯蒂芬",{pageTotal:count/pageSize,list:articleData});
     }
 
     async addArticle(ctx) {
         let article = new ArticleModel({ title: 'small' });
         let articleData = await article.save()
-        responseClient(ctx,200,200,"",articleData);
+        
+        responseClient(ctx,200,200,"啊是打发斯蒂芬",articleData);
     }
 }
 export default new ArticleController();
