@@ -9,6 +9,7 @@ class ArticleController {
     async articleList(ctx) {
         let { pageIndex, pageSize } = ctx.request.body;
         try {
+            console.log(ctx.request.body);
             let articleData = await ArticleModel.find().skip(pageIndex * pageSize).limit(pageSize);
             let count = await ArticleModel.count();
             responseClient(ctx,"",{pageTotal:Math.ceil(count/pageSize),list:articleData});

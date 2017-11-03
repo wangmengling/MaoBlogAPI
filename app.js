@@ -12,6 +12,8 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const debug = require('debug')('koa2:server')
 const path = require('path')
+var cors = require('koa2-cors');
+
 
 const config = require('./config')
 const routes = require('./routes')
@@ -34,6 +36,9 @@ app.use(bodyparser())
   }))
   .use(router.routes())
   .use(router.allowedMethods())
+
+
+  app.use(cors());
 
 // logger
 app.use(async (ctx, next) => {
