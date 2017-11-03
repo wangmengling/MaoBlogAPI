@@ -1,7 +1,6 @@
 
 import ArticleModel from "../models/ArticleModel";
 import {responseClient} from "../config/Utils";
-import ResponseData from "../config/ResponseData";
 class ArticleController {
     constructor() {
         
@@ -37,9 +36,48 @@ class ArticleController {
     }
 
     async addArticle(ctx) {
-        let article = new ArticleModel({ title: 'small' });
-        let articleData = await article.save()
-        responseClient(ctx,200,200,"",articleData);
+        ctx.type = 'json';
+        let { title, content, category, tag} = ctx.request.body;
+        let time = Date.parse(new Date()) ;
+        let article = new ArticleModel({
+            username: 'wangguozhong',
+            // 简介
+            summary: title,
+            // 内容
+            content: content,
+            // 时间
+            time : time,
+            // 标题
+            title: title,
+            category: category,
+            tag: tag
+        });
+        try {
+            let articleData = await article.save();
+            responseClient(ctx,"添加成功",articleData);
+        } catch (error) {
+            responseClient(ctx,"添加失败",error,0,500);
+        }
+    }
+
+    async deleteArticle(ctx) {
+        ctx.type = 'json';
+        let params = {_id:ctx.request.body.articleId};
+        let article = new Article(params);
+        try {
+            let ret = await article.remove();
+            let data;
+            if (ret) {
+                ctx.session.article = ret;
+                responseClient(ctx,"删除成功",ret);
+            }
+            else {
+                responseClient(ctx,"删除失败",ret,0);
+            }
+        } catch (error) {
+            responseClient(ctx,"删除失败",ret,0,500);
+        }
+        
     }
 }
 export default new ArticleController();

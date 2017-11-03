@@ -14,8 +14,6 @@ module.exports = {
         ctx.status = httpCode;
         ctx.body = responseData;
     }
-
-    
 }
 
 
