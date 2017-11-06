@@ -38,7 +38,7 @@ app.use(bodyparser())
   .use(router.allowedMethods())
 
 
-  app.use(cors());
+  ;
 
 // logger
 app.use(async (ctx, next) => {
@@ -47,6 +47,8 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - $ms`)
 })
+
+app.use(cors());
 
 router.get('/', async (ctx, next) => {
   // ctx.body = 'Hello World'
