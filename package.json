@@ -6,8 +6,10 @@
     "start": "nodemon ./app.js --exec babel-node"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.1",
     "debug": "~2.6.8",
     "jsonwebtoken": "^8.1.0",
+    "kcors": "^2.2.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-convert": "^1.2.0",
@@ -29,6 +31,8 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-3": "^6.24.1",
-    "eslint": "3.18.0"
+    "eslint": "3.18.0",
+    "http-proxy-middleware": "^0.17.4",
+    "koa-proxy": "^0.9.0"
   }
 }
