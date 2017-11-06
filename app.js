@@ -12,7 +12,8 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const debug = require('debug')('koa2:server')
 const path = require('path')
-var cors = require('koa2-cors');
+const cors = require('@koa/cors');
+const allorCrossOrigin = require('./middlewares/cors')
 
 
 const config = require('./config')
@@ -23,7 +24,8 @@ const port = process.env.PORT || config.port
 
 // error handler
 onerror(app)
- 
+// app.use(cors());
+app.use(allorCrossOrigin)
 // middlewares
 app.use(bodyparser())
   .use(json())
@@ -37,15 +39,14 @@ app.use(bodyparser())
   .use(router.routes())
   .use(router.allowedMethods())
 
-
-  ;
-
 // logger
 app.use(async (ctx, next) => {
   const start = new Date()
   await next()
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - $ms`)
+  ctx
+  // ctx.response.setHeader("Access-Control-Allow-Origin", "*");
 })
 
 app.use(cors());
@@ -64,7 +65,6 @@ app.on('error', function(err, ctx) {
   console.log(err)
   logger.error('server error', err, ctx)
 })
-
 module.exports = app.listen(config.port, () => {
   console.log(`Listening on http://localhost:${config.port}`)
 })

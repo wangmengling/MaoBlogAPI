@@ -7,11 +7,13 @@ class ArticleController {
     }
 
     async articleList(ctx) {
+        ctx.type = 'json';
         let { pageIndex, pageSize } = ctx.request.body;
         try {
-            console.log(ctx.request.body);
+            console.log(pageSize);
             let articleData = await ArticleModel.find().skip(pageIndex * pageSize).limit(pageSize);
             let count = await ArticleModel.count();
+            count = 18;
             responseClient(ctx,"",{pageTotal:Math.ceil(count/pageSize),list:articleData});
         } catch (error) {
             responseClient(ctx,error.message,{},0);
