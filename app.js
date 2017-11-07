@@ -24,8 +24,8 @@ const port = process.env.PORT || config.port
 
 // error handler
 // onerror(app)
-// app.use(cors());
-app.use(allorCrossOrigin)
+app.use(cors());
+// app.use(allorCrossOrigin)
 // middlewares
 app.use(bodyparser())
   .use(json())

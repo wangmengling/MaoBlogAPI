@@ -13,7 +13,6 @@ class ArticleController {
             console.log(pageSize);
             let articleData = await ArticleModel.find().skip(pageIndex * pageSize).limit(pageSize);
             let count = await ArticleModel.count();
-            count = 18;
             responseClient(ctx,"",{pageTotal:Math.ceil(count/pageSize),list:articleData});
         } catch (error) {
             responseClient(ctx,error.message,{},0);
@@ -49,7 +48,7 @@ class ArticleController {
             // 内容
             content: content,
             // 时间
-            time : time,
+            // time : time,
             // 标题
             title: title,
             category: category,
@@ -66,12 +65,12 @@ class ArticleController {
     async deleteArticle(ctx) {
         ctx.type = 'json';
         let params = {_id:ctx.request.body.articleId};
-        let article = new Article(params);
+        // let article = new Article(params);
         try {
-            let ret = await article.remove();
+            // let ret = await article.remove();
+            let ret  = await ArticleModel.remove(params);
             let data;
             if (ret) {
-                ctx.session.article = ret;
                 responseClient(ctx,"删除成功",ret);
             }
             else {

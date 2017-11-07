@@ -5,6 +5,6 @@ module.exports =  (router) => {
     ctx.body = 'this a users response!';
   })
 
-  router.post('/user/login',UserController.login);
-  router.post('/user/register',UserController.register);
+  router.post('/admin/user/login',UserController.login);
+  router.post('/admin/user/register',UserController.register);
 }

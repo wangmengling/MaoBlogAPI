@@ -34,6 +34,8 @@ class UserController {
     async login(ctx) {
         ctx.type = 'json';
         let { username, password } = ctx.request.body;
+        // ctx.body = ctx.request.body;
+        // return;
         let user = new UserModel({ "username":username, "password":password });
         try {
             let ret = await UserModel.findOne({ "username": username });

@@ -8,7 +8,8 @@ var articleSchema = new Schema({
   category: Number,
   tag: String,
   comments: [{ body: String, date: Date }],
-  time: { type: Date, default: Date.now },
+  // time: { type: Date, default: Date.now },
+  time: {type: Number, default: Date.now},
   hidden: Boolean,
   status:Number,
   view:Number
