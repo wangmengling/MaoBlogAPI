@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-// mongoose.connect('mongodb://MaoBlog:MaoBlog@localhost:27017/MaoBlog',{useMongoClient:true});
-mongoose.connect('mongodb://localhost:27017/MaoBlog',{useMongoClient:true});
+mongoose.connect('mongodb://MaoBlog:MaoBlog@localhost:27017/MaoBlog',{useMongoClient:true});
+// mongoose.connect('mongodb://localhost:27017/MaoBlog',{useMongoClient:true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {

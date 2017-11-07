@@ -39,7 +39,7 @@ class UserController {
         let user = new UserModel({ "username":username, "password":password });
         try {
             let ret = await UserModel.findOne({ "username": username });
-            let data;
+            console.log(ret);
             if (ret._id) {
                 const token = jwt.sign({
                     user_id: ret._id,
@@ -48,13 +48,14 @@ class UserController {
                 });
                 await UserModel.update({ _id: ret._id }, { $set: { token: token }});
                 ret.token = token
+
                 responseClient(ctx,"登录成功",ret);
             }
             else {
-                responseClient(ctx,"用户名或密码错误",ret._id,0);
+                responseClient(ctx,"用户名或密码错误","",0);
             }
         } catch (error) {
-            responseClient(ctx,error.message,ret._id,0,error.code);
+            responseClient(ctx,error.message,error.message,500);
         }
     }
 }
