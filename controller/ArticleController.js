@@ -62,6 +62,32 @@ class ArticleController {
         }
     }
 
+    async updateArticle(ctx) {
+        ctx.type = 'json';
+        let {_id, title, content, category, tag, summary} = ctx.request.body;
+        let time = Date.parse(new Date()) ;
+        let article = new ArticleModel({
+            // 简介
+            summary: summary,
+            // 内容
+            content: content,
+            // 标题
+            title: title,
+            category: category,
+            tag: tag
+        });
+        if (_id) {
+            try {
+                let articleData = await ArticleModel.findOneAndUpdate({_id:new MongoId(_id)},article);
+                responseClient(ctx,"修改成功",articleData);
+            } catch (error) {
+                responseClient(ctx,"修改失败",error,0,500);
+            }
+        }else {
+            responseClient(ctx,"没有相关文章",error,0);
+        }
+    }
+
     async deleteArticle(ctx) {
         ctx.type = 'json';
         let params = {_id:ctx.request.body.articleId};
