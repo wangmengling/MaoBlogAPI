@@ -3,15 +3,22 @@ import { responseClient } from "../config/Utils";
 class CategoryController {
     async categoryAdd(ctx) {
         ctx.type = 'json';
-        let { name, pID } = ctx.request.body;
-        let category = new CategoryModel({ "name":name, "pID":pID, "status":1 });
+        let { name} = ctx.request.body;
+        let category = new CategoryModel({ "name":name, "status":1 });
+        
         try {
             let ret = await CategoryModel.findOne({ "name": name });
-            if (ret._id) {
+            if (ret) {
                 responseClient(ctx,"该分类已经存在",ret);
             }
             else {
-                responseClient(ctx,"分类添加成功",ret,0);
+                console.log(category);
+                let data = await category.save();
+                if (data) {
+                    responseClient(ctx,"分类添加成功",ret);
+                }else {
+                    responseClient(ctx,"分类添加失败",ret,0);
+                }
             }
         } catch (error) {
             responseClient(ctx,error.message,"",0,error.code);

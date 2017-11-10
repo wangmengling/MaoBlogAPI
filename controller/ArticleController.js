@@ -52,7 +52,8 @@ class ArticleController {
             // 标题
             title: title,
             category: category,
-            tag: tag
+            tag: tag,
+            view: 0
         });
         try {
             let articleData = await article.save();
@@ -74,11 +75,14 @@ class ArticleController {
             // 标题
             title: title,
             category: category,
-            tag: tag
+            tag: tag,
+            _id:_id
         });
         if (_id) {
+            console.log(article);
+            console.log(_id);
             try {
-                let articleData = await ArticleModel.findOneAndUpdate({_id:new MongoId(_id)},article);
+                let articleData = await ArticleModel.findOneAndUpdate({_id:_id},article);
                 responseClient(ctx,"修改成功",articleData);
             } catch (error) {
                 responseClient(ctx,"修改失败",error,0,500);

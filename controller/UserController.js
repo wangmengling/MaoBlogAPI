@@ -48,7 +48,7 @@ class UserController {
                 });
                 await UserModel.update({ _id: ret._id }, { $set: { token: token }});
                 ret.token = token
-
+                console.log(ret);
                 responseClient(ctx,"登录成功",ret);
             }
             else {
